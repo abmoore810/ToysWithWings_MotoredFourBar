@@ -2,7 +2,7 @@
 ----- CHANGE BELOW NUMBER TO CHANGE AMOUNT OF TIME PROGRAM WILL RUN -----
 """
 sample_time = 5    # In seconds
-CCW = False        # Set to True for CCW movement or False for CW movement
+CCW = True        # Set to True for CCW movement or False for CW movement
 
 """
 ---------- DO NOT CHANGE ANYTHING BELOW THIS LINE ----------
@@ -67,12 +67,11 @@ def get_inclination(_sensor):
 startTime = int(round(time.time() * 1000))
 currTime = int(round(time.time() * 1000))
 
+# Sets default direction to Counter-Clockwise
 direction = 1
-
 if not CCW:
     direction = -1
 
-# s.throttle = 0.5 * direction
 while (currTime - startTime) < sample_time*1000:
     currTime = int(round(time.time() * 1000))
     angle_xz, angle_yz = get_inclination(sensor)
@@ -80,10 +79,9 @@ while (currTime - startTime) < sample_time*1000:
     xj = xj * (-1)
     delta_angle_xz = angle_xz - angle_xzi
     delta_angle_yz = angle_yz - angle_yzi
-#     print("delta XZ angle = {:6.2f}deg   delta YZ angle = {:6.2f}deg".format(delta_angle_xz, delta_angle_yz))
-    print("Link Angle = {:6.2f}deg   gyro: x = {:6.2f}deg/s  y = {:6.2f}deg/s  z = {:6.2f}deg/s".format(delta_angle_yz, xj, yj, zj))
+print("Link Angle = {:6.2f}deg   gyro: x = {:6.2f}deg/s  y = {:6.2f}deg/s  z = {:6.2f}deg/s".format(delta_angle_yz, xj, yj, zj))
     s.throttle = 0.5 * direction
-#     time.sleep(0.2)
+    time.sleep(0.2)
 
 s.throttle = 0.0 * direction
 print("\nProgram Complete!")
